@@ -9,6 +9,21 @@ namespace Monogame___Summative
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        enum Screen
+        {
+            Intro,
+            mid,
+            Outro, 
+        }
+        Rectangle window;
+
+        Texture2D midBackround;
+
+
+
+
+
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -18,7 +33,7 @@ namespace Monogame___Summative
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            window = new Rectangle(0, 0, 800, 600);
 
             base.Initialize();
         }
