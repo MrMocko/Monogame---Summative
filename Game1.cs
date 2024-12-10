@@ -17,8 +17,15 @@ namespace Monogame___Summative
         }
         Rectangle window;
 
-        Texture2D midBackround;
+        Screen screen;
 
+        Texture2D introBackround;
+        Texture2D midBackround;
+        Texture2D outroBackround;
+
+
+        MouseState prevMousestate;
+        MouseState mouseState;
 
 
 
@@ -33,7 +40,11 @@ namespace Monogame___Summative
 
         protected override void Initialize()
         {
-            window = new Rectangle(0, 0, 800, 600);
+            window = new Rectangle(0, 0, 800, 500);
+
+            screen = Screen.Intro;
+
+            screen = Screen.mid;
 
             base.Initialize();
         }
@@ -42,7 +53,9 @@ namespace Monogame___Summative
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            introBackround = Content.Load<Texture2D>("intro Backround");
+            midBackround = Content.Load<Texture2D>("mid Backround");
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -50,7 +63,18 @@ namespace Monogame___Summative
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+
+            // Backrounds
+            if (screen == Screen.Intro)
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                    screen = Screen.mid;
+
+
+
+            }
+
+
 
             base.Update(gameTime);
         }
@@ -58,8 +82,27 @@ namespace Monogame___Summative
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
 
-            // TODO: Add your drawing code here
+
+            _spriteBatch.Draw(introBackround, window, Color.White);
+
+            _spriteBatch.Draw(midBackround, window, Color.White);
+
+
+
+
+
+
+
+
+
+
+
+
+
+            _spriteBatch.End();
+            
 
             base.Draw(gameTime);
         }
