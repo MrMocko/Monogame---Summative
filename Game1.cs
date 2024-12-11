@@ -24,6 +24,13 @@ namespace Monogame___Summative
         Texture2D outroBackround;
 
 
+        Texture2D startButtonTexture;
+        Rectangle startButtonRect;
+
+        Texture2D exitButtonTexture;
+        Rectangle exitButtonRect;
+
+
         MouseState prevMousestate;
         MouseState mouseState;
 
@@ -40,11 +47,17 @@ namespace Monogame___Summative
 
         protected override void Initialize()
         {
-            window = new Rectangle(0, 0, 800, 500);
+            window = new Rectangle(0, 0, 800, 600);
+            _graphics.PreferredBackBufferWidth = window.Width;
+            _graphics.PreferredBackBufferHeight = window.Height;
+            _graphics.ApplyChanges();
+            startButtonRect = new Rectangle(590, 510, 200, 80);
+            exitButtonRect = new Rectangle(590, 510, 200, 80);
 
             screen = Screen.Intro;
 
-            screen = Screen.mid;
+
+            
 
             base.Initialize();
         }
@@ -55,23 +68,46 @@ namespace Monogame___Summative
 
             introBackround = Content.Load<Texture2D>("intro Backround");
             midBackround = Content.Load<Texture2D>("mid Backround");
-            
+            outroBackround = Content.Load<Texture2D>("outro Backround");
+            startButtonTexture = Content.Load<Texture2D>("start Button");
+            exitButtonTexture = Content.Load<Texture2D>("exit Button");
+
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            prevMousestate = mouseState;
+            mouseState = Mouse.GetState();
 
+            
 
             // Backrounds
             if (screen == Screen.Intro)
             {
-                if (mouseState.LeftButton == ButtonState.Pressed)
-                    screen = Screen.mid;
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
+                {
+                    if (startButtonRect.Contains(mouseState.Position))
+                        screen = Screen.mid;
+
+                }
 
 
 
+            }
+
+            else if (screen == Screen.mid) 
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
+                {
+                    screen = Screen.Outro;
+                    if (exitButtonRect.Contains(mouseState.Position))
+                    {
+                        Exit();
+                    }
+                }
+                   
             }
 
 
@@ -84,10 +120,22 @@ namespace Monogame___Summative
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
 
+            if (screen == Screen.Intro)
+            {
+                _spriteBatch.Draw(introBackround, new Vector2(0, 0), Color.White);
+                _spriteBatch.Draw(startButtonTexture, startButtonRect, Color.White);
+            }
 
-            _spriteBatch.Draw(introBackround, window, Color.White);
+            else if (screen == Screen.mid)
+            {
+                _spriteBatch.Draw(midBackround, window, Color.White);
+            }
 
-            _spriteBatch.Draw(midBackround, window, Color.White);
+            else if (screen == Screen.Outro)
+            {
+                _spriteBatch.Draw(outroBackround, window, Color.White);
+                _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White); 
+            }
 
 
 
