@@ -34,6 +34,10 @@ namespace Monogame___Summative
         MouseState prevMousestate;
         MouseState mouseState;
 
+        Texture2D waterGunTexture;
+        Rectangle waterGunRect;
+
+
 
 
 
@@ -53,6 +57,8 @@ namespace Monogame___Summative
             _graphics.ApplyChanges();
             startButtonRect = new Rectangle(590, 510, 200, 80);
             exitButtonRect = new Rectangle(590, 510, 200, 80);
+            waterGunRect = new Rectangle(530, 320, 300, 300);
+
 
             screen = Screen.Intro;
 
@@ -71,6 +77,7 @@ namespace Monogame___Summative
             outroBackround = Content.Load<Texture2D>("outro Backround");
             startButtonTexture = Content.Load<Texture2D>("start Button");
             exitButtonTexture = Content.Load<Texture2D>("exit Button");
+            waterGunTexture = Content.Load<Texture2D>("waterGun");
 
         }
 
@@ -88,6 +95,7 @@ namespace Monogame___Summative
             {
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
                 {
+
                     if (startButtonRect.Contains(mouseState.Position))
                         screen = Screen.mid;
 
@@ -101,13 +109,25 @@ namespace Monogame___Summative
             {
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
                 {
+                        
                     screen = Screen.Outro;
-                    if (exitButtonRect.Contains(mouseState.Position))
-                    {
-                        Exit();
-                    }
+                    
                 }
-                   
+                
+                
+
+                
+
+            }
+
+            if (screen == Screen.Outro)
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
+                {
+                    if (exitButtonRect.Contains(mouseState.Position))
+                        Exit();
+
+                }
             }
 
 
@@ -129,11 +149,14 @@ namespace Monogame___Summative
             else if (screen == Screen.mid)
             {
                 _spriteBatch.Draw(midBackround, window, Color.White);
+
+                _spriteBatch.Draw(waterGunTexture, waterGunRect, Color.White);
             }
 
             else if (screen == Screen.Outro)
             {
                 _spriteBatch.Draw(outroBackround, window, Color.White);
+
                 _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White); 
             }
 
