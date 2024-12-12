@@ -60,6 +60,7 @@ namespace Monogame___Summative
             waterGunRect = new Rectangle(530, 320, 300, 300);
 
 
+
             screen = Screen.Intro;
 
 
@@ -112,6 +113,7 @@ namespace Monogame___Summative
                         
                     screen = Screen.Outro;
                     
+
                 }
                 
                 
@@ -121,6 +123,17 @@ namespace Monogame___Summative
             }
 
             if (screen == Screen.Outro)
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
+                {
+                    if (exitButtonRect.Contains(mouseState.Position))
+                        Exit();
+
+
+                }
+            }
+
+            else if (screen == Screen.Outro)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
                 {
@@ -143,6 +156,7 @@ namespace Monogame___Summative
             if (screen == Screen.Intro)
             {
                 _spriteBatch.Draw(introBackround, new Vector2(0, 0), Color.White);
+
                 _spriteBatch.Draw(startButtonTexture, startButtonRect, Color.White);
             }
 
@@ -157,19 +171,8 @@ namespace Monogame___Summative
             {
                 _spriteBatch.Draw(outroBackround, window, Color.White);
 
-                _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White); 
+                _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White);
             }
-
-
-
-
-
-
-
-
-
-
-
 
 
             _spriteBatch.End();
