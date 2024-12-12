@@ -102,12 +102,19 @@ namespace Monogame___Summative
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
                 {
                     screen = Screen.Outro;
-                    if (exitButtonRect.Contains(mouseState.Position))
-                    {
-                        Exit();
-                    }
+                    
                 }
                    
+            }
+
+            else if (screen == Screen.Outro)
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
+                {
+                    if (exitButtonRect.Contains(mouseState.Position))
+                        Exit();
+
+                }
             }
 
 
