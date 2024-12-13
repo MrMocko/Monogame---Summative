@@ -37,6 +37,13 @@ namespace Monogame___Summative
         Texture2D waterGunTexture;
         Rectangle waterGunRect;
 
+        Texture2D shotTargetTexture;
+        Rectangle shotTargetRect;
+        Vector2 shotTargetSpeed;
+
+        Texture2D waterTexture;
+        Rectangle waterRect;
+
 
 
 
@@ -58,6 +65,9 @@ namespace Monogame___Summative
             startButtonRect = new Rectangle(590, 510, 200, 80);
             exitButtonRect = new Rectangle(590, 510, 200, 80);
             waterGunRect = new Rectangle(530, 320, 300, 300);
+            shotTargetRect = new Rectangle(530, 290, 100, 100);
+            shotTargetSpeed = new Vector2(-2, 0);
+            waterRect = new Rectangle(530, 180, 200, 300);
 
 
 
@@ -79,6 +89,8 @@ namespace Monogame___Summative
             startButtonTexture = Content.Load<Texture2D>("start Button");
             exitButtonTexture = Content.Load<Texture2D>("exit Button");
             waterGunTexture = Content.Load<Texture2D>("waterGun");
+            shotTargetTexture = Content.Load<Texture2D>("shot Target");
+            waterTexture = Content.Load<Texture2D>("water");
 
         }
 
@@ -108,18 +120,22 @@ namespace Monogame___Summative
 
             else if (screen == Screen.mid) 
             {
+                shotTargetRect.X += (int)shotTargetSpeed.X;
+                shotTargetRect.Y += (int)shotTargetSpeed.Y;
+                if (shotTargetRect.Right > window.Width || shotTargetRect.Left < 0)
+                    shotTargetSpeed.X *= -1;
+
+
+
+
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
                 {
-                        
+                    
                     screen = Screen.Outro;
                     
 
                 }
                 
-                
-
-                
-
             }
 
             if (screen == Screen.Outro)
@@ -164,7 +180,12 @@ namespace Monogame___Summative
             {
                 _spriteBatch.Draw(midBackround, window, Color.White);
 
+                _spriteBatch.Draw(shotTargetTexture, shotTargetRect, Color.White);
+
                 _spriteBatch.Draw(waterGunTexture, waterGunRect, Color.White);
+
+                _spriteBatch.Draw(waterTexture,waterRect, null, Color.White, 1.2f, Vector2.Zero, SpriteEffects.None, 0f);
+
             }
 
             else if (screen == Screen.Outro)
