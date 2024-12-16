@@ -9,6 +9,8 @@ namespace Monogame___Summative
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        float seconds;
+
         enum Screen
         {
             Intro,
@@ -67,7 +69,7 @@ namespace Monogame___Summative
             waterGunRect = new Rectangle(530, 320, 300, 300);
             shotTargetRect = new Rectangle(530, 290, 100, 100);
             shotTargetSpeed = new Vector2(-2, 0);
-            waterRect = new Rectangle(530, 180, 200, 300);
+            waterRect = new Rectangle(530, 180, 200, 300); 
 
 
 
@@ -100,8 +102,8 @@ namespace Monogame___Summative
                 Exit();
             prevMousestate = mouseState;
             mouseState = Mouse.GetState();
+            seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            
 
             // Backrounds
             if (screen == Screen.Intro)
@@ -122,15 +124,19 @@ namespace Monogame___Summative
             {
                 shotTargetRect.X += (int)shotTargetSpeed.X;
                 shotTargetRect.Y += (int)shotTargetSpeed.Y;
-                if (shotTargetRect.Right > window.Width || shotTargetRect.Left < 0)
+                if (shotTargetRect.Right > 800 || shotTargetRect.Left < 290)
                     shotTargetSpeed.X *= -1;
 
 
 
 
-                if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
+                if (shotTargetRect  window.Width && window.Height)
                 {
-                    
+                    if (seconds >= 10)
+                    {
+                        shotTargetRect(900, 1000);
+                        seconds = 0f;
+                    }
                     screen = Screen.Outro;
                     
 
