@@ -75,9 +75,11 @@ namespace Monogame___Summative
 
             screen = Screen.Intro;
 
+            seconds = 0f;
 
-            
-
+            _graphics.PreferredBackBufferWidth = window.Width;
+            _graphics.PreferredBackBufferHeight = window.Height;
+            _graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -102,48 +104,43 @@ namespace Monogame___Summative
                 Exit();
             prevMousestate = mouseState;
             mouseState = Mouse.GetState();
-            seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            seconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 
-            // Backrounds
+            // INTRO
             if (screen == Screen.Intro)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
                 {
 
                     if (startButtonRect.Contains(mouseState.Position))
+                    {                        
                         screen = Screen.mid;
+                        seconds = 0;
+
+                    }
 
                 }
 
 
 
             }
-
-            else if (screen == Screen.mid) 
+            // MID SCREEN
+            else if (screen == Screen.mid)
             {
                 shotTargetRect.X += (int)shotTargetSpeed.X;
-                shotTargetRect.Y += (int)shotTargetSpeed.Y;
                 if (shotTargetRect.Right > 800 || shotTargetRect.Left < 290)
                     shotTargetSpeed.X *= -1;
 
-
-
-
-                if (shotTargetRect  window.Width && window.Height)
+                if (seconds >= 2)
                 {
-                    if (seconds >= 10)
-                    {
-                        shotTargetRect(900, 1000);
-                        seconds = 0f;
-                    }
                     screen = Screen.Outro;
-                    
-
                 }
-                
+
+                base.Update(gameTime);
             }
 
+            // OUTRO
             if (screen == Screen.Outro)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
@@ -154,21 +151,10 @@ namespace Monogame___Summative
 
                 }
             }
-
-            else if (screen == Screen.Outro)
-            {
-                if (mouseState.LeftButton == ButtonState.Pressed && prevMousestate.LeftButton == ButtonState.Released)
-                {
-                    if (exitButtonRect.Contains(mouseState.Position))
-                        Exit();
-
-                }
-            }
-
-
-
+            
+            
             base.Update(gameTime);
-        }
+        } 
 
         protected override void Draw(GameTime gameTime)
         {
@@ -190,7 +176,10 @@ namespace Monogame___Summative
 
                 _spriteBatch.Draw(waterGunTexture, waterGunRect, Color.White);
 
-                _spriteBatch.Draw(waterTexture,waterRect, null, Color.White, 1.2f, Vector2.Zero, SpriteEffects.None, 0f);
+                if (seconds >= 1.5)
+                {
+                    _spriteBatch.Draw(waterTexture, waterRect, null, Color.White, 1.2f, Vector2.Zero, SpriteEffects.None, 0f);
+                }
 
             }
 
